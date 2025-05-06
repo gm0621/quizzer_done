@@ -38,32 +38,6 @@ class _QuizPageState extends State<QuizPage> {
 
   int questionNumber = 0;
 
-  checkAnswer(bool userPickedAnswer){
-    print(questionNumber);
-
-    // The user picked true.
-    setState(() {
-
-      if (questionNumber < questions.length) {
-        bool correctAnswer = answers[questionNumber];
-
-        if (userPickedAnswer == correctAnswer) {
-          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        } else {
-          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-        }
-
-        if (questionNumber == questions.length - 1) {
-          print('You\'ve reached the end of the quiz.');
-        }else {
-          questionNumber++;
-        }
-
-      }
-
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -96,8 +70,24 @@ class _QuizPageState extends State<QuizPage> {
                 textStyle: TextStyle(fontSize: 20.0),
               ),
               child: Text('True'),
-              onPressed: (){
-                checkAnswer(true);
+              onPressed: () {
+                print(questionNumber);
+                // The user picked true.
+                setState(() {
+                  bool correctAnswer = answers[questionNumber];
+
+                  if (correctAnswer == true) {
+                    scoreKeeper.add(Icon(Icons.check, color: Colors.green));
+                  } else {
+                    scoreKeeper.add(Icon(Icons.close, color: Colors.red));
+                  }
+
+                  if (questionNumber == questions.length - 1) {
+                    print('You\'ve reached the end of the quiz.');
+                  } else {
+                    questionNumber++;
+                  }
+                });
               },
             ),
           ),
@@ -112,8 +102,14 @@ class _QuizPageState extends State<QuizPage> {
                 textStyle: TextStyle(fontSize: 20.0),
               ),
               child: Text('False'),
-              onPressed: (){
-                checkAnswer(false);
+              onPressed: () {
+                setState(() {
+                  scoreKeeper.add(
+                    Icon(Icons.close, color: Colors.red,),
+                  );
+                });
+
+                // The user picked false.
               },
             ),
           ),

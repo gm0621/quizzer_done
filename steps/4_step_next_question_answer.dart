@@ -26,7 +26,12 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
 
-  List<Icon> scoreKeeper = [];
+  List<Icon> scoreKeeper = [
+    Icon(Icons.check, color: Colors.green,),
+    Icon(Icons.check, color: Colors.green,),
+    Icon(Icons.close, color: Colors.red,),
+    Icon(Icons.close, color: Colors.red,) ,
+  ];
 
   List<String> questions = [
     'You can lead a cow down stairs but not up stairs.',
@@ -37,32 +42,6 @@ class _QuizPageState extends State<QuizPage> {
   List<bool> answers = [false, true, true];
 
   int questionNumber = 0;
-
-  checkAnswer(bool userPickedAnswer){
-    print(questionNumber);
-
-    // The user picked true.
-    setState(() {
-
-      if (questionNumber < questions.length) {
-        bool correctAnswer = answers[questionNumber];
-
-        if (userPickedAnswer == correctAnswer) {
-          scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-        } else {
-          scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-        }
-
-        if (questionNumber == questions.length - 1) {
-          print('You\'ve reached the end of the quiz.');
-        }else {
-          questionNumber++;
-        }
-
-      }
-
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +75,22 @@ class _QuizPageState extends State<QuizPage> {
                 textStyle: TextStyle(fontSize: 20.0),
               ),
               child: Text('True'),
-              onPressed: (){
-                checkAnswer(true);
+              onPressed: () {
+
+                bool correctAnswer = answers[questionNumber];
+
+                // The user picked true.
+                setState(() {
+                  if(correctAnswer == true){
+                    print('you got it right!');
+                  }else{
+                    print('you got it wrong!');
+                  }
+                  scoreKeeper.add(
+                    Icon(Icons.check, color: Colors.green,),
+                  );
+                  questionNumber++;
+                });
               },
             ),
           ),
@@ -112,8 +105,14 @@ class _QuizPageState extends State<QuizPage> {
                 textStyle: TextStyle(fontSize: 20.0),
               ),
               child: Text('False'),
-              onPressed: (){
-                checkAnswer(false);
+              onPressed: () {
+                setState(() {
+                  scoreKeeper.add(
+                    Icon(Icons.check, color: Colors.green,),
+                  );
+                });
+
+                // The user picked false.
               },
             ),
           ),
