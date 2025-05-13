@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 //TODO: Setp2 - Import the rFlutter_Alert package here.
 import 'package:quizzer/quiz_brain.dart';
 
@@ -33,26 +32,6 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
 
   List<Icon> scoreKeeper = [];
-
-  // List<String> questions = [
-  //   'You can lead a cow down stairs but not up stairs.',
-  //   'Approximately one quarter of human bones are in the feet.',
-  //   'A slug\'s blood is green.',
-  // ];
-  //
-  // List<bool> answers = [false, true, true];
-  //
-  // Question q1 = Question(q: 'You can lead a cow down stairs but not up stairs.', a: false);
-  // Question q2 = Question(q: 'Approximately one quarter of human bones are in the feet.', a: true);
-  // Question q3 = Question(q: 'A slug\'s blood is green.', a: true);
-
-  // List<Question> questionBank = [
-  //   Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
-  //   Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
-  //   Question(q: 'A slug\'s blood is green.', a: true),
-  // ];
-
-
   int questionNumber = 0;
 
   checkAnswer(bool userPickedAnswer){
@@ -63,43 +42,25 @@ class _QuizPageState extends State<QuizPage> {
       bool correctAnswer = quizBrain.getQuestionAnswer();
 
       //TODO: Step 4 - Use IF/ELSE to check if we've reached the end of the quiz. If so, On the next line, you can also use if (quizBrain.isFinished()) {}, it does the same thing.
-      if (quizBrain.isFinished() == true) {
 
-        // basic alert from the docs for rFlutter Alert
-        Alert(
-          context: context,
-          type: AlertType.info,
-          title: "Finished",
-          desc: "You\'ve reached the end of the quiz.",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "Reset",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () => Navigator.pop(context),
-              width: 120,
-            )
-          ],
-        ).show();
 
         //TODO Step 4 Part C - reset the questionNumber,
-        quizBrain.reset();
+
 
         //TODO Step 4 Part D - empty out the scoreKeeper.
-        scoreKeeper = [];
 
-      }
+
+
 
       //TODO: Step 6 - If we've not reached the end, ELSE do the answer checking steps below 👇
-      else {
+
         if (userPickedAnswer == correctAnswer) {
           scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         } else {
           scoreKeeper.add(Icon(Icons.close, color: Colors.red));
         }
         quizBrain.nextQuestion();
-      }
+
 
     });
   }
@@ -163,21 +124,3 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-
-
-_onBasicAlertPressed(context) {
-  Alert(
-    context: context,
-    title: "Finished",
-    desc: "You\'ve reached the end of the quiz.",
-  ).show();
-}
-
-
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/

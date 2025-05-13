@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-//TODO: Setp2 - Import the rFlutter_Alert package here.
-import 'package:quizzer/quiz_brain.dart';
-
-
-QuizBrain quizBrain = QuizBrain();
+import 'package:quizzer/question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -46,59 +41,36 @@ class _QuizPageState extends State<QuizPage> {
   // Question q2 = Question(q: 'Approximately one quarter of human bones are in the feet.', a: true);
   // Question q3 = Question(q: 'A slug\'s blood is green.', a: true);
 
-  // List<Question> questionBank = [
-  //   Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
-  //   Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
-  //   Question(q: 'A slug\'s blood is green.', a: true),
-  // ];
+  List<Question> questionBank = [
+    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
+    Question(q: 'Approximately one quarter of human bones are in the feet.', a: true),
+    Question(q: 'A slug\'s blood is green.', a: true),
+  ];
 
 
   int questionNumber = 0;
 
   checkAnswer(bool userPickedAnswer){
+    print(questionNumber);
 
     // The user picked true.
     setState(() {
 
-      bool correctAnswer = quizBrain.getQuestionAnswer();
+      if (questionNumber < questionBank.length) {
+        bool correctAnswer = questionBank[questionNumber].questionAnswer;
 
-      //TODO: Step 4 - Use IF/ELSE to check if we've reached the end of the quiz. If so, On the next line, you can also use if (quizBrain.isFinished()) {}, it does the same thing.
-      if (quizBrain.isFinished() == true) {
-
-        // basic alert from the docs for rFlutter Alert
-        Alert(
-          context: context,
-          type: AlertType.info,
-          title: "Finished",
-          desc: "You\'ve reached the end of the quiz.",
-          buttons: [
-            DialogButton(
-              child: Text(
-                "Reset",
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              onPressed: () => Navigator.pop(context),
-              width: 120,
-            )
-          ],
-        ).show();
-
-        //TODO Step 4 Part C - reset the questionNumber,
-        quizBrain.reset();
-
-        //TODO Step 4 Part D - empty out the scoreKeeper.
-        scoreKeeper = [];
-
-      }
-
-      //TODO: Step 6 - If we've not reached the end, ELSE do the answer checking steps below 👇
-      else {
         if (userPickedAnswer == correctAnswer) {
           scoreKeeper.add(Icon(Icons.check, color: Colors.green));
         } else {
           scoreKeeper.add(Icon(Icons.close, color: Colors.red));
         }
-        quizBrain.nextQuestion();
+
+        if (questionNumber == questionBank.length - 1) {
+          print('You\'ve reached the end of the quiz.');
+        }else {
+          questionNumber++;
+        }
+
       }
 
     });
@@ -116,7 +88,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.getQuestionText(),
+                questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -163,17 +135,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-
-
-_onBasicAlertPressed(context) {
-  Alert(
-    context: context,
-    title: "Finished",
-    desc: "You\'ve reached the end of the quiz.",
-  ).show();
-}
-
 
 
 /*
